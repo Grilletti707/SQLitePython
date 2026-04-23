@@ -8,3 +8,64 @@ id,cliente,produto,valor,data
 7,Ariane,iPhone,10000,2026-04-22
 8,Marta,TV,3000,2026-04-22
 9,Alan,Robô aspirador,-2000,2026-04-22
+10,Fernanda,Headset,350,2024-02-01
+11,Bruno,Cadeira Gamer,1800,2024-02-03
+12,Patrícia,Webcam,250,2024-02-05
+13,Rodrigo,SSD 1TB,400,2024-02-07
+14,Mariana,Notebook,4200,2024-02-10
+15,Fernanda,Mouse,80,2024-02-12
+16,Bruno,Monitor,1350,2024-02-14
+17,Thiago,Teclado Mecânico,600,2024-02-16
+18,Letícia,Notebook,3900,2024-02-18
+19,Diego,HD Externo,300,2024-02-20
+20,Camila,Smartphone,2800,2024-02-22
+21,Rafael,Impressora,750,2024-03-01
+22,Juliana,Cabo HDMI,45,2024-03-03
+23,Pedro,Placa de Vídeo,3200,2024-03-05
+24,Tatiane,Notebook,4800,2024-03-07
+25,Marcos,Mousepad,60,2024-03-09
+26,Aline,Hub USB,120,2024-03-11
+27,Felipe,Monitor Ultrawide,2900,2024-03-13
+28,Daniela,Teclado,180,2024-03-15
+29,Lucas,Notebook,3600,2024-03-17
+30,Sabrina,Fone Bluetooth,430,2024-03-19
+31,Eduardo,Roteador,280,2024-03-21
+32,Priscila,Tablet,1500,2024-03-23
+33,Gustavo,Smartphone,3100,2024-03-25
+34,Viviane,Carregador,95,2024-03-27
+35,Henrique,SSD 500GB,220,2024-03-29
+36,Natalia,Notebook,5100,2024-04-01
+37,Igor,Placa Mãe,800,2024-04-03
+38,Renata,Monitor,1100,2024-04-05
+39,Caio,Processador,1400,2024-04-07
+40,Alessandra,Memória RAM,350,2024-04-09
+41,Vinicius,Notebook,4400,2024-04-11
+42,Bianca,Webcam,310,2024-04-13
+43,Tiago,HD Externo,270,2024-04-15
+44,Larissa,Smartphone,2200,2024-04-17
+45,Otávio,Cadeira Gamer,2100,2024-04-19
+46,Monique,Headset,280,2024-04-21
+47,César,Teclado Mecânico,550,2024-04-23
+48,Adriana,Cabo USB-C,35,2024-04-25
+49,Fábio,Notebook,3750,2024-04-27
+50,Juliana,Monitor,1250,2024-04-29
+51,Roberto,Impressora,690,2024-05-01
+52,Simone,Placa de Vídeo,2800,2024-05-03
+53,André,Mouse,95,2024-05-05
+54,Cristina,Notebook,4600,2024-05-07
+55,Wanderson,Roteador,320,2024-05-09
+56,Melissa,Tablet,1800,2024-05-11
+57,Patrick,Smartphone,3400,2024-05-13
+58,Claudia,SSD 1TB,380,2024-05-15
+59,Alex,Processador,1600,2024-05-17
+60,Isabela,Notebook,5300,2024-05-19
+61,  ana  ,Notebook,3500,2024-06-01
+62,CARLOS,Mouse,80,2024-06-02
+63,joão,Monitor,1200,2024-06-03
+64,Fernanda,  headset  ,350,2024-06-04
+9,Alan,Robô aspirador,2000,2024-06-05
+65,Marcos,Mousepad,-60,2024-06-06
+66,Thiago,Teclado Mecânico,0,2024-06-07
+67,Leticia,Notebook,abc,2024-06-08
+68,,Smartphone,2500,2024-06-09
+69,Rodrigo,,1200,2024-06-10
