@@ -1,13 +1,15 @@
 import logging
 from process import load_data
 from db import create_table, insert_data
+import os
 
 def main():
 
     logging.info("Iniciando pipeline")
 
     # Caminho do arquivo CSV
-    file_path = "C:\\Projetos\\Pessoais\\SQLitePython\\data\\vendas.csv"
+    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    file_path = os.path.join(BASE_DIR, "data", "vendas.csv")
 
     # 1 - Carregar os dados
     data = load_data(file_path)

@@ -5,3 +5,6 @@ id,cliente,produto,valor,data
 4,João,Monitor,1200,2024-01-13
 5,Carlos,Notebook,3400,2024-01-14
 6,Lucca,Computador,3800,2024-04-08
+7,Ariane,iPhone,10000,2026-04-22
+8,Marta,TV,3000,2026-04-22
+9,Alan,Robô aspirador,-2000,2026-04-22
