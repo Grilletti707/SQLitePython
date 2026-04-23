@@ -3,14 +3,13 @@ import os
 import logging
 from typing import List, Dict
 
-# Ajustando os caminhos da criação da db, para garantir que vai ficar organizado
+# Ajustando os caminhos da criação da db, para garantir que vai ficar organizado em qualquer máquina, independente do sistema operacional.
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 DB_DIR = os.path.join(BASE_DIR, "db")
 DB_PATH = os.path.join(DB_DIR, "database.db")
 
 # Conferindo se /db existe
 os.makedirs(DB_DIR, exist_ok=True)
-
 
 def get_connection(): # Pensando em escalabilidade e boa prática, é melhor colocar como uma função
 

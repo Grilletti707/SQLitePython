@@ -9,7 +9,7 @@ class Venda(TypedDict):
     valor: float
     data: str
 
-def load_data(file_path: str) -> List[Venda]:
+def load_data(file_path: str) -> List[Venda]: # Ler o csv e transformar em uma lista de dicionários, com validação simples dos dados
 
     data = []
 
