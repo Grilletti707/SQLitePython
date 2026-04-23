@@ -32,7 +32,7 @@ def load_data(file_path: str) -> List[Venda]:
                     }
 
                     # Validação simples para garantir que os dados estão corretos
-                    if venda["id"] <= 0 or venda["valor"] < 0:
+                    if venda["id"] <= 0 or venda["valor"] <= 0:
                         raise ValueError("ID deve ser positivo e valor deve ser não negativo")
 
                     data.append(venda)
