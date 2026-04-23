@@ -57,6 +57,10 @@ def insert_data(data: List[Dict]):
 
     conn = get_connection()
 
+    inserted_count = 0
+    ignored_count = 0
+    failed_count = 0
+
     try:
         cursor = conn.cursor()
 
@@ -75,8 +79,14 @@ def insert_data(data: List[Dict]):
                     item["data"]
                 ))
 
+                if cursor.rowcount == 1:
+                    inserted_count += 1
+                else:
+                    ignored_count += 1
+
             except Exception as e:
                 logging.error(f"Erro ao inserir registro: {e}")
+                failed_count += 1
 
         logging.info("Inserção concluída com sucesso")
         conn.commit()
@@ -86,3 +96,9 @@ def insert_data(data: List[Dict]):
 
     finally:
         conn.close()
+
+    return {
+        "inserted": inserted_count,
+        "ignored": ignored_count,
+        "failed": failed_count
+    }

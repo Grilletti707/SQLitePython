@@ -1,8 +1,14 @@
 import logging
-from process import load_data
-from db import create_table, insert_data
-from queries import fetch_all, fetch_by_cliente, fetch_summary
 import os
+from fastapi import FastAPI
+from src.api import routes
+from src.process import load_data
+from src.db import create_table, insert_data
+from src.queries import fetch_all, fetch_by_cliente, fetch_summary
+
+app = FastAPI()
+
+app.include_router(routes.router)
 
 def main():
 

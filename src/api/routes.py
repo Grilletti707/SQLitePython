@@ -1,0 +1,89 @@
+import logging
+from pydantic  import BaseModel
+from fastapi import APIRouter, HTTPException, Query
+from src.db import insert_data
+from src.queries import fetch_all, fetch_by_id, delete_by_id
+from typing import Optional
+
+class Venda(BaseModel):
+    id: int
+    cliente: str
+    produto: str
+    valor: float
+    data: str
+
+router = APIRouter(prefix="/vendas")
+
+@router.post("/") # POST para inserir uma nova venda
+def criar_venda(venda: Venda):
+
+    try:
+        result =  insert_data([venda.model_dump()])
+        return result
+    
+    except Exception as e:
+        logging.error(f"Erro ao criar venda: {e}")
+        raise HTTPException(status_code=500, detail="Erro interno ao criar venda")
+    
+@router.get("/") # GET sem filtros, para listar todas as vendas
+def listar_vendas():
+    
+    try:
+        return fetch_all()
+    
+    except Exception as e:
+        logging.error(f"Erro ao listar vendas: {e}") 
+        raise HTTPException(status_code=500, detail="Erro interno ao buscar vendas")
+    
+@router.get("") # GET com filtros opcionais
+def listar_vendas(
+    cliente: Optional[str] = Query(None, description="Filtrar por nome do cliente"),
+    valor_min: Optional[float] = Query(None, description="Valor mínimo da venda"),
+    valor_max: Optional[float] = Query(None, description="Valor máximo da venda"),
+    data: Optional[str] = Query(None, description="Data da venda no formato YYYY-MM-DD")
+):
+
+    try:
+        return fetch_all(
+            cliente=cliente,
+            valor_min=valor_min,
+            valor_max=valor_max,
+            data=data
+        )
+    except Exception as e:
+        logging.error(f"Erro ao listar vendas com filtros: {e}")
+        raise HTTPException(status_code=500, detail="Erro interno ao buscar vendas com filtros")
+
+@router.get("/{id}") # GET para buscar venda por ID
+def buscar_venda(id: int):
+
+    try:
+        venda = fetch_by_id(id)
+
+        if not venda:
+            raise HTTPException(status_code=404, detail="Venda não encontrada")
+        
+        return venda
+    
+    except HTTPException:
+        raise
+
+    except Exception:
+        logging.exception(f"Erro ao buscar venda por ID")
+        raise HTTPException(status_code=500, detail="Erro interno ao buscar venda por ID")
+    
+@router.delete("/{id}") # DELETE para remover venda por ID
+def deletar_venda(id: int):
+
+    try:
+        venda = fetch_by_id(id)
+
+        if not venda:
+            raise HTTPException(status_code=404, detail="Venda não encontrada")
+        
+        delete_by_id(id)
+        return {"message": f"Venda com ID {id} deletada com sucesso"}
+    
+    except Exception as e:
+        logging.error(f"Erro ao deletar venda: {e}")
+        raise HTTPException(status_code=500, detail="Erro interno ao deletar venda")
