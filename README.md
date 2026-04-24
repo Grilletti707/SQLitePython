@@ -6,15 +6,30 @@ Lê um arquivo CSV de vendas, valida os dados e os insere em um banco SQLite loc
 
 ## Como rodar
 
-**Pré-requisitos:** Python 3.10+
-
-Sem dependências externas. Todas as bibliotecas usadas são da biblioteca padrão do Python.
+**Pré-requisitos:** </br>
+Python 3.10+ </br>
+pip </br>
 
 1. Clone o repositório </br>
+````bash
 git clone https://github.com/Grilletti707/SQLitePython.git
 cd SQLitePython
+````
+2. Baixe os requerimentos para rodar a API </br>
+```bash
+pip install -r requirements.txt
+```
 
-2. Execute o pipeline </br>
+3. Para subir a API, utilize
+```bash
+uvicorn main:app --reload
+```
+Ou
+```bash
+python -m uvicorn src.main:app --reload
+```
+
+3. Execute o pipeline </br>
 python src/main.py
 
 O banco será criado automaticamente em `db/database.db`.

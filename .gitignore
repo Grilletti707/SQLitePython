@@ -1,5 +1,14 @@
-logs/*.log
-db/*.db
-__pycache__/
+# Ambientes virtuais
+venv/
+.venv/
+
+# Python cache (pega em todas as subpastas)
+**/__pycache__/
 *.pyc
+
+# Banco de dados e Logs
+db/*.db
+logs/*.log
+
+# Arquivos de notas pessoais descartáveis
 utils.md

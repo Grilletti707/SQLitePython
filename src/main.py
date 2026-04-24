@@ -4,8 +4,7 @@ from fastapi import FastAPI
 from src.api import routes
 from src.process import load_data
 from src.db import create_table, insert_data
-from src.queries import fetch_all, fetch_by_cliente, fetch_summary
-
+import src.queries as queries
 app = FastAPI()
 
 app.include_router(routes.router)
@@ -33,14 +32,14 @@ def main():
     insert_data(data)
 
     # 4. Rodar consultas e gerar relatórios
-    all_sales = fetch_all()
+    all_sales = queries.fetch_all()
     print(f"Total de vendas: {len(all_sales)}")
 
-    lucca_sales = fetch_by_cliente("Lucca")
+    lucca_sales = queries.fetch_by_cliente("Lucca")
     print(f"Vendas do Lucca: {len(lucca_sales)}")
 
-    summary = fetch_summary()
-    print(f"Resumo: {summary['total_vendas']} vendas, totalizando R${summary['total_valor']:.2f}")
+    summary = queries.fetch_report()
+    print(f"Resumo: {summary['total_sales']} vendas, totalizando R${summary['total_value']:.2f}")
 
     logging.info("Pipeline finalizado com sucesso")
 

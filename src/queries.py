@@ -83,19 +83,42 @@ def fetch_by_id(id: int) -> Dict: # Busca venda por ID
     finally:
         conn.close()
 
-def fetch_summary() -> Dict: # Agrega métricas como total de vendas e valor total
+def fetch_report() -> Dict: # Agrega métricas como total de vendas e valor total
 
     conn = get_connection()
 
     try:
         cursor = conn.cursor()
-        cursor.execute("SELECT COUNT(*) AS total_vendas, SUM(valor) AS total_valor FROM vendas")
+
+        query = """
+            SELECT 
+                COUNT(*) AS total_vendas_loja, --total_sales
+                SUM(valor) AS total_valor_loja, --total_value
+                (SELECT cliente FROM vendas GROUP BY cliente ORDER BY SUM(valor) DESC LIMIT 1) AS cliente_maior_faturamento, --best_client
+                (SELECT cliente FROM vendas GROUP BY cliente ORDER BY COUNT(*) DESC LIMIT 1) AS cliente_mais_fiel, --most_loyal_client
+                (SELECT produto FROM vendas GROUP BY produto ORDER BY SUM(valor) DESC LIMIT 1) AS produto_campeao_faturamento, --most_profitable_product
+                (SELECT produto FROM vendas GROUP BY produto ORDER BY COUNT(*) DESC LIMIT 1) AS produto_mais_vendido --most_sold_product
+            FROM vendas
+            LIMIT 1;
+        """
+
+        cursor.execute(query)
+
         row = cursor.fetchone()
-        return {"total_vendas": row[0], "total_valor": row[1]}
-    
+        return {
+            "total_sales": row[0],              # total_vendas_loja
+            "total_value": row[1],              # total_valor_loja
+            "best_client": row[2],              # cliente_maior_faturamento
+            "most_loyal_client": row[3],        # cliente_mais_fiel
+            "most_profitable_product": row[4],  # produto_campeao_faturamento
+            "most_sold_product": row[5]         # produto_mais_vendido
+        }
+
     except Exception as e:
         logging.error(f"Erro ao buscar resumo de vendas: {e}")
-        return {"total_vendas": 0, "total_valor": 0.0}
+        return {
+            "total_sales": 0, "total_value": 0.0
+        }
     
     finally:
         conn.close()

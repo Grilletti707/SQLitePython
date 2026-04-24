@@ -2,7 +2,7 @@ import logging
 from pydantic  import BaseModel
 from fastapi import APIRouter, HTTPException, Query
 from src.db import insert_data
-from src.queries import fetch_all, fetch_by_id, delete_by_id
+import src.queries as queries
 from typing import Optional
 
 class Venda(BaseModel):
@@ -18,7 +18,7 @@ router = APIRouter(prefix="/vendas")
 def criar_venda(venda: Venda):
 
     try:
-        result =  insert_data([venda.model_dump()])
+        result =  queries.insert_data([venda.model_dump()])
         return result
     
     except Exception as e:
@@ -29,7 +29,7 @@ def criar_venda(venda: Venda):
 def listar_vendas():
     
     try:
-        return fetch_all()
+        return queries.fetch_all()
     
     except Exception as e:
         logging.error(f"Erro ao listar vendas: {e}") 
@@ -44,7 +44,7 @@ def listar_vendas(
 ):
 
     try:
-        return fetch_all(
+        return queries.fetch_all(
             cliente=cliente,
             valor_min=valor_min,
             valor_max=valor_max,
@@ -58,7 +58,7 @@ def listar_vendas(
 def buscar_venda(id: int):
 
     try:
-        venda = fetch_by_id(id)
+        venda = queries.fetch_by_id(id)
 
         if not venda:
             raise HTTPException(status_code=404, detail="Venda não encontrada")
@@ -76,14 +76,24 @@ def buscar_venda(id: int):
 def deletar_venda(id: int):
 
     try:
-        venda = fetch_by_id(id)
+        venda = queries.fetch_by_id(id)
 
         if not venda:
             raise HTTPException(status_code=404, detail="Venda não encontrada")
         
-        delete_by_id(id)
+        queries.delete_by_id(id)
         return {"message": f"Venda com ID {id} deletada com sucesso"}
     
     except Exception as e:
         logging.error(f"Erro ao deletar venda: {e}")
         raise HTTPException(status_code=500, detail="Erro interno ao deletar venda")
+
+@router.get("/relatorios") # GET para gerar relatório completo de vendas
+def relatorio_faturamento():
+
+    try:
+        return queries.fetch_report()
+    
+    except Exception as e:
+        logging.error(f"Erro ao gerar relatório de faturamento: {e}")
+        raise HTTPException(status_code=500, detail="Erro interno ao gerar relatório de faturamento")
