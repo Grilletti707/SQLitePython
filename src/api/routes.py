@@ -25,31 +25,40 @@ def criar_venda(venda: Venda):
         logging.error(f"Erro ao criar venda: {e}")
         raise HTTPException(status_code=500, detail="Erro interno ao criar venda")
     
-@router.get("/") # GET sem filtros, para listar todas as vendas
-def listar_vendas():
+# GET para listar todas as vendas
+# @router.get("/") # GET sem filtros, para listar todas as vendas
+# def listar_vendas():
     
-    try:
-        return queries.fetch_all()
+#     try:
+#         return queries.fetch_all()
     
-    except Exception as e:
-        logging.error(f"Erro ao listar vendas: {e}") 
-        raise HTTPException(status_code=500, detail="Erro interno ao buscar vendas")
+#     except Exception as e:
+#         logging.error(f"Erro ao listar vendas: {e}") 
+#         raise HTTPException(status_code=500, detail="Erro interno ao buscar vendas")
     
 @router.get("") # GET com filtros opcionais
 def listar_vendas(
     cliente: Optional[str] = Query(None, description="Filtrar por nome do cliente"),
     valor_min: Optional[float] = Query(None, description="Valor mínimo da venda"),
     valor_max: Optional[float] = Query(None, description="Valor máximo da venda"),
-    data: Optional[str] = Query(None, description="Data da venda no formato YYYY-MM-DD")
+    data: Optional[str] = Query(None, description="Data da venda no formato YYYY-MM-DD"),
+    limit: Optional[int] = Query(None, description="Limite de resultados"),
+    offset: Optional[int] = Query(None, description="Deslocamento para paginação")
 ):
 
     try:
-        return queries.fetch_all(
+        return {
+            "limit": limit,
+            "offset": offset,
+            "data":queries.fetch_by(
+            limit=limit,
+            offset=offset,
             cliente=cliente,
             valor_min=valor_min,
             valor_max=valor_max,
             data=data
-        )
+            )
+        }
     except Exception as e:
         logging.error(f"Erro ao listar vendas com filtros: {e}")
         raise HTTPException(status_code=500, detail="Erro interno ao buscar vendas com filtros")
@@ -88,7 +97,7 @@ def deletar_venda(id: int):
         logging.error(f"Erro ao deletar venda: {e}")
         raise HTTPException(status_code=500, detail="Erro interno ao deletar venda")
 
-@router.get("/relatorios") # GET para gerar relatório completo de vendas
+@router.get("/relatorios/") # GET para gerar relatório completo de vendas
 def relatorio_faturamento():
 
     try:

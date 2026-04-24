@@ -10,6 +10,11 @@ Lê um arquivo CSV de vendas, valida os dados e os insere em um banco SQLite loc
 Python 3.10+ </br>
 pip </br>
 
+**Recomendações opcionais**
+SQLite Viewer - Visualizar arquivos .db para VS Code </br>
+Utilizar venv </br>
+
+
 1. Clone o repositório </br>
 ````bash
 git clone https://github.com/Grilletti707/SQLitePython.git
@@ -30,7 +35,9 @@ python -m uvicorn src.main:app --reload
 ```
 
 3. Execute o pipeline </br>
+```bash
 python src/main.py
+```
 
 O banco será criado automaticamente em `db/database.db`.
 

@@ -4,7 +4,7 @@ from typing import List, Dict
 from fastapi import params
 from src.db import get_connection
 
-def fetch_all(cliente=None, valor_min=None, valor_max=None, data=None) -> List[Dict]: # Relata todas as vendas
+def fetch_by(cliente=None, valor_min=None, valor_max=None, data=None, limit=None, offset=None) -> List[Dict]: # Relata todas as vendas
 
     conn = get_connection()
     cursor = conn.cursor()
@@ -28,6 +28,14 @@ def fetch_all(cliente=None, valor_min=None, valor_max=None, data=None) -> List[D
     if data is not None:
         query += " AND data = ?"
         params.append(data)
+
+    if limit is not None:
+        query += " LIMIT ?"
+        params.append(limit)
+
+    if offset is not None:
+        query += " OFFSET ?"
+        params.append(offset)
 
     cursor.execute(query, params)
     rows = cursor.fetchall()
