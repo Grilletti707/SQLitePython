@@ -1,6 +1,8 @@
 # Ambientes virtuais
 venv/
 .venv/
+postman/
+.postman/
 
 # Python cache (pega em todas as subpastas)
 **/__pycache__/
@@ -10,5 +12,5 @@ venv/
 db/*.db
 logs/*.log
 
-# Arquivos de notas pessoais descartáveis
+# Arquivos de notas pessoais e descartáveis
 utils.md
