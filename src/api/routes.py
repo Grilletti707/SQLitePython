@@ -1,8 +1,8 @@
 import logging
+import src.db as db
 import src.queries as queries
 from pydantic  import BaseModel
 from fastapi import APIRouter, HTTPException, Query, File, UploadFile
-from src.db import insert_data
 from src.process import process_csv
 from typing import Optional
 
@@ -15,11 +15,11 @@ class Venda(BaseModel):
 
 router = APIRouter(prefix="/vendas")
 
-@router.post("/") # POST para inserir uma nova venda
+@router.post("") # POST para inserir uma nova venda
 def criar_venda(venda: Venda):
 
     try:
-        result =  queries.insert_data([venda.model_dump()])
+        result =  db.insert_data([venda.model_dump()])
         return result
     
     except Exception as e:
@@ -116,7 +116,7 @@ def upload_vendas(file: UploadFile = File(...)):
 
         data = process_csv(content)
 
-        data_counts = insert_data(data)
+        data_counts = db.insert_data(data)
         
         return data_counts
     
