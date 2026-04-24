@@ -60,6 +60,7 @@ def insert_data(data: List[Dict]):
     inserted_count = 0
     ignored_count = 0
     failed_count = 0
+    errors = []
 
     try:
         cursor = conn.cursor()
@@ -85,6 +86,7 @@ def insert_data(data: List[Dict]):
                     ignored_count += 1
 
             except Exception as e:
+                errors.append({"item": item, "error": str(e)})
                 logging.error(f"Erro ao inserir registro: {e}")
                 failed_count += 1
 
@@ -100,5 +102,6 @@ def insert_data(data: List[Dict]):
     return {
         "inserted": inserted_count,
         "ignored": ignored_count,
-        "failed": failed_count
+        "failed": failed_count,
+        "errors": errors
     }

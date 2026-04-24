@@ -1,8 +1,9 @@
 import logging
-from pydantic  import BaseModel
-from fastapi import APIRouter, HTTPException, Query
-from src.db import insert_data
 import src.queries as queries
+from pydantic  import BaseModel
+from fastapi import APIRouter, HTTPException, Query, File, UploadFile
+from src.db import insert_data
+from src.process import process_csv
 from typing import Optional
 
 class Venda(BaseModel):
@@ -25,7 +26,7 @@ def criar_venda(venda: Venda):
         logging.error(f"Erro ao criar venda: {e}")
         raise HTTPException(status_code=500, detail="Erro interno ao criar venda")
     
-# GET para listar todas as vendas
+
 # @router.get("/") # GET sem filtros, para listar todas as vendas
 # def listar_vendas():
     
@@ -106,3 +107,19 @@ def relatorio_faturamento():
     except Exception as e:
         logging.error(f"Erro ao gerar relatório de faturamento: {e}")
         raise HTTPException(status_code=500, detail="Erro interno ao gerar relatório de faturamento")
+    
+@router.post("/upload")
+def upload_vendas(file: UploadFile = File(...)):
+    
+    try:
+        content = file.file.read().decode('utf-8')
+
+        data = process_csv(content)
+
+        data_counts = insert_data(data)
+        
+        return data_counts
+    
+    except Exception as e:
+        logging.exception(f"Erro ao processar arquivo CSV: {e}")
+        raise HTTPException(status_code=500, detail="Erro interno ao processar arquivo CSV")

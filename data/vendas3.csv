@@ -1,0 +1,6 @@
+id,cliente,produto,valor,data
+80,Felipe,Teclado,abc,2024-02-11
+81,Gabriel,,500.00,2024-02-12
+82,Helena,Mouse,200.00,12-02-2024
+83,Igor,Notebook,3800.00,2024-02-13
+84,Julia,Monitor,not_a_number,2024-02-14

@@ -1,6 +1,7 @@
 import csv
 import logging
 from typing import List, TypedDict
+from io import StringIO
 
 class Venda(TypedDict):
     id: int
@@ -44,5 +45,26 @@ def load_data(file_path: str) -> List[Venda]: # Ler o csv e transformar em uma l
         logging.error(f"Erro ao ler arquivo: {e}")
 
     logging.info(f"Total de registros carregados: {len(data)}")
+
+    return data
+
+def process_csv(content: str):
+    reader = csv.DictReader(StringIO(content))
+
+    data = []
+
+    for row in reader:
+        try:
+            item = {
+                "id": int(row["id"]),
+                "cliente": row["cliente"],
+                "produto": row["produto"],
+                "valor": float(row["valor"]),
+                "data": row["data"]
+            }
+            data.append(item)
+
+        except Exception as e:
+            logging.error(f"Linha inválida: {row} | erro: {e}")
 
     return data

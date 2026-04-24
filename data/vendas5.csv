@@ -1,0 +1,11 @@
+id,cliente,produto,valor,data
+90,Pedro,Notebook,3500.00,2024-02-20
+91,,Mouse,150.00,2024-02-21
+92,Carla,Teclado,abc,2024-02-22
+93,Joao,Monitor,1200.00,22-02-2024
+94,Ana,,500.00,2024-02-23
+95,Bruno,Notebook,,2024-02-24
+96,Marina,Mouse,200.00,
+97,Lucas,Teclado,300.00,2024/02/25
+98,Paula,Monitor,1300.00,2024-02-26
+99,Rafael,Notebook,4000.00,2024-02-27
