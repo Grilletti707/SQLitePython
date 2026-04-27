@@ -10,6 +10,7 @@ postman/
 
 # Banco de dados e Logs
 db/*.db
+*.log
 logs/*.log
 
 # Arquivos de notas pessoais e descartáveis

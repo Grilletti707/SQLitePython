@@ -20,23 +20,24 @@ Utilizar venv </br>
 git clone https://github.com/Grilletti707/SQLitePython.git
 cd SQLitePython
 ````
+
 2. Baixe os requerimentos para rodar a API </br>
 ```bash
 pip install -r requirements.txt
 ```
 
-3. Para subir a API, utilize
+3. Execute o pipeline </br>
+```bash
+python -m src.main
+```
+
+4. Para subir a API, utilize </br>
 ```bash
 uvicorn main:app --reload
 ```
 Ou
 ```bash
 python -m uvicorn src.main:app --reload
-```
-
-3. Execute o pipeline </br>
-```bash
-python src/main.py
 ```
 
 O banco será criado automaticamente em `db/database.db`.
