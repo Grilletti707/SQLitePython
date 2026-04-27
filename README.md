@@ -12,26 +12,31 @@ pip </br>
 
 **Recomendações opcionais**
 SQLite Viewer - Visualizar arquivos .db para VS Code </br>
-Utilizar venv </br>
+Utilizar venv (Altamente recomendado) </br>
 
-
-1. Clone o repositório </br>
+1. Clone o repositório: </br>
 ````bash
 git clone https://github.com/Grilletti707/SQLitePython.git
 cd SQLitePython
 ````
 
-2. Baixe os requerimentos para rodar a API </br>
+2. Inicialize o venv no seu ambiente: </br>
+```bash
+python -m venv venv
+venv\Scripts\activate
+```
+
+3. Baixe os requerimentos para rodar a API: </br>
 ```bash
 pip install -r requirements.txt
 ```
 
-3. Execute o pipeline </br>
+4. Execute o pipeline </br>
 ```bash
 python -m src.main
 ```
 
-4. Para subir a API, utilize </br>
+5. Para subir a API, utilize: </br>
 ```bash
 uvicorn main:app --reload
 ```
