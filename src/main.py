@@ -4,14 +4,20 @@ from fastapi import FastAPI
 from src.api import routes
 from src.process import load_data
 from src.db import create_table, insert_data
+from src.core.logging_config import setup_logging
 import src.queries as queries
+
 app = FastAPI()
 
 app.include_router(routes.router)
 
+# Configurando o logger para este módulo
+setup_logging()
+logger = logging.getLogger(__name__)
+
 def main():
 
-    logging.info("Iniciando pipeline")
+    logger.info("Iniciando pipeline")
 
     # Caminho do arquivo CSV
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -22,7 +28,7 @@ def main():
 
     if not data:
 
-        logging.warning("Nenhum dado para processar. Encerrando pipeline.")
+        logger.warning("Nenhum dado para processar. Encerrando pipeline.")
         return
 
     # 2. Garantir que a tabela existe
@@ -32,7 +38,7 @@ def main():
     insert_data(data)
 
     # 4. Rodar consultas e gerar relatórios
-    all_sales = queries.fetch_all()
+    all_sales = queries.fetch_by()
     print(f"Total de vendas: {len(all_sales)}")
 
     lucca_sales = queries.fetch_by_cliente("Lucca")
@@ -41,20 +47,11 @@ def main():
     summary = queries.fetch_report()
     print(f"Resumo: {summary['total_sales']} vendas, totalizando R${summary['total_value']:.2f}")
 
-    logging.info("Pipeline finalizado com sucesso")
+    logger.info("Pipeline finalizado com sucesso")
 
 if __name__ == "__main__":
-
-    logging.basicConfig(
-        level=logging.INFO,
-        format="%(asctime)s - %(levelname)s - %(message)s",
-        handlers=[
-            logging.StreamHandler(), # terminal
-            logging.FileHandler("../logs/app.log", encoding="utf-8")  # arquivo
-        ]
-    )
 
     try:
         main()
     except Exception as e:
-        logging.error(f"Erro fatal inesperado: {e}")
+        logger.error(f"Erro fatal inesperado: {e}")

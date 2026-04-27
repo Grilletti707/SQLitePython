@@ -3,6 +3,10 @@ import logging
 from typing import List, TypedDict
 from io import StringIO
 
+
+# Configurando o logger para este módulo
+logger = logging.getLogger(__name__)
+
 class Venda(TypedDict):
     id: int
     cliente: str
@@ -14,7 +18,7 @@ def load_data(file_path: str) -> List[Venda]: # Ler o csv e transformar em uma l
 
     data = []
 
-    logging.info(f"Lendo arquivos do caminho: {file_path}")
+    logger.info(f"Lendo arquivos do caminho: {file_path}")
 
     try:
         with open(file_path, newline='', encoding='utf-8') as csvfile:
@@ -39,12 +43,12 @@ def load_data(file_path: str) -> List[Venda]: # Ler o csv e transformar em uma l
                     data.append(venda)
 
                 except ValueError as ve:
-                    logging.error(f"Erro de validação para linha {row} | {ve}")
+                    logger.error(f"Erro de validação para linha {row} | {ve}")
 
     except Exception as e:
-        logging.error(f"Erro ao ler arquivo: {e}")
+        logger.error(f"Erro ao ler arquivo: {e}")
 
-    logging.info(f"Total de registros carregados: {len(data)}")
+    logger.info(f"Total de registros carregados: {len(data)}")
 
     return data
 
@@ -65,6 +69,6 @@ def process_csv(content: str):
             data.append(item)
 
         except Exception as e:
-            logging.error(f"Linha inválida: {row} | erro: {e}")
+            logger.error(f"Linha inválida: {row} | erro: {e}")
 
     return data

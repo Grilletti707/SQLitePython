@@ -1,8 +1,10 @@
 import logging
 from typing import List, Dict
-
 from fastapi import params
 from src.db import get_connection
+
+# Configurando o logger para este módulo
+logger = logging.getLogger(__name__)
 
 def fetch_by(cliente=None, valor_min=None, valor_max=None, data=None, limit=None, offset=None) -> List[Dict]: # Relata todas as vendas
 
@@ -13,7 +15,7 @@ def fetch_by(cliente=None, valor_min=None, valor_max=None, data=None, limit=None
     params = []
 
     if cliente is not None:
-        print("Filtrando por cliente:", cliente)
+        logger.info(f"Filtrando por cliente: {cliente}")
         query += " AND cliente LIKE ?"
         params.append(f"%{cliente}%")
 
@@ -64,7 +66,7 @@ def fetch_by_cliente(cliente: str) -> List[Dict]: # Busca vendas por nome do cli
         return [dict(zip(columns, row)) for row in rows]
     
     except Exception as e:
-        logging.error(f"Erro ao buscar dados por cliente: {e}")
+        logger.error(f"Erro ao buscar dados por cliente: {e}")
         return []
     
     finally:
@@ -85,7 +87,7 @@ def fetch_by_id(id: int) -> Dict: # Busca venda por ID
             return {}
     
     except Exception as e:
-        logging.error(f"Erro ao buscar dados por ID: {e}")
+        logger.error(f"Erro ao buscar dados por ID: {e}")
         return {}
     
     finally:
@@ -123,7 +125,7 @@ def fetch_report() -> Dict: # Agrega métricas como total de vendas e valor tota
         }
 
     except Exception as e:
-        logging.error(f"Erro ao buscar resumo de vendas: {e}")
+        logger.error(f"Erro ao buscar resumo de vendas: {e}")
         return {
             "total_sales": 0, "total_value": 0.0
         }
@@ -144,7 +146,7 @@ def delete_by_id(id: int) -> bool: # Deleta venda por ID
         return rows_deleted > 0
     
     except Exception as e:
-        logging.error(f"Erro ao deletar venda por ID: {e}")
+        logger.error(f"Erro ao deletar venda por ID: {e}")
         return False
     
     finally:
