@@ -13,20 +13,24 @@ A Python-based data pipeline that ingests sales data from CSV files, validates i
 
 ## Getting started
 
-**Prerequisites:** </br>
-Python 3.10+ </br>
-pip </br>
+**Prerequisites:** 
 
-**Optional:** </br>
+Python 3.10+ 
+pip 
+
+**Optional:** 
+
 - SQLite Viewer (VS Code extension) – for inspecting `.db` files
 
-1. Clone the repo: </br>
+1. Clone the repo: 
+
 ````bash
 git clone https://github.com/Grilletti707/SQLitePython.git
 cd SQLitePython
 ````
 
-2. Create and activate a virtual environment: </br>
+2. Create and activate a virtual environment: 
+
 ```bash
 python -m venv venv
 # Windows
@@ -36,17 +40,20 @@ venv\Scripts\activate
 source venv/bin/activate
 ```
 
-3. Install dependencies: </br>
+3. Install dependencies: 
+
 ```bash
 pip install -r requirements.txt
 ```
 
-4. Run the data ingestion pipeline: </br>
+4. Run the data ingestion pipeline: 
+
 ```bash
 python -m src.main
 ```
 
-5. To run the API, use: </br>
+5. To run the API, use:
+
 ```bash
 python -m uvicorn src.main:app --reload
 ```

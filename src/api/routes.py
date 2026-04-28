@@ -25,18 +25,7 @@ def criar_venda(venda: Venda):
     except Exception as e:
         logging.error(f"Erro ao criar venda: {e}")
         raise HTTPException(status_code=500, detail="Erro interno ao criar venda")
-    
 
-# @router.get("/") # GET sem filtros, para listar todas as vendas
-# def listar_vendas():
-    
-#     try:
-#         return queries.fetch_all()
-    
-#     except Exception as e:
-#         logging.error(f"Erro ao listar vendas: {e}") 
-#         raise HTTPException(status_code=500, detail="Erro interno ao buscar vendas")
-    
 @router.get("") # GET com filtros opcionais
 def listar_vendas(
     cliente: Optional[str] = Query(None, description="Filtrar por nome do cliente"),

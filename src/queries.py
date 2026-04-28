@@ -41,7 +41,6 @@ def fetch_by(cliente=None, valor_min=None, valor_max=None, data=None, limit=None
 
         cursor.execute(query, params)
         rows = cursor.fetchall()
-        conn.close()
 
         return [
             {
