@@ -1,61 +1,96 @@
 # SQLitePython
 
-Pipeline de ingestão de dados CSV para SQLite com Python.
+## Overview
 
-Lê um arquivo CSV de vendas, valida os dados e os insere em um banco SQLite local.
+A Python-based data pipeline that ingests sales data from CSV files, validates it, stores it in a local SQLite database, and exposes it through a REST API built with FastAPI.
 
-## Como rodar
+## Tech Stack
 
-**Pré-requisitos:** </br>
+- Python
+- FastAPI
+- SQLite
+- Pydantic
+
+## Getting started
+
+**Prerequisites:** </br>
 Python 3.10+ </br>
 pip </br>
 
-**Recomendações opcionais**
-SQLite Viewer - Visualizar arquivos .db para VS Code </br>
-Utilizar venv (Altamente recomendado) </br>
+**Optional:** </br>
+- SQLite Viewer (VS Code extension) – for inspecting `.db` files
 
-1. Clone o repositório: </br>
+1. Clone the repo: </br>
 ````bash
 git clone https://github.com/Grilletti707/SQLitePython.git
 cd SQLitePython
 ````
 
-2. Inicialize o venv no seu ambiente: </br>
+2. Create and activate a virtual environment: </br>
 ```bash
 python -m venv venv
+# Windows
 venv\Scripts\activate
+
+# Linux / Mac
+source venv/bin/activate
 ```
 
-3. Baixe os requerimentos para rodar a API: </br>
+3. Install dependencies: </br>
 ```bash
 pip install -r requirements.txt
 ```
 
-4. Execute o pipeline </br>
+4. Run the data ingestion pipeline: </br>
 ```bash
 python -m src.main
 ```
 
-5. Para subir a API, utilize: </br>
-```bash
-uvicorn main:app --reload
-```
-Ou
+5. To run the API, use: </br>
 ```bash
 python -m uvicorn src.main:app --reload
 ```
 
-O banco será criado automaticamente em `db/database.db`.
+## Example Request
 
-## Estrutura
+```bash
+curl -X POST "http://127.0.0.1:8000/sales" \
+-H "Content-Type: application/json" \
+-d '{
+  "id": 1,
+  "cliente": "Lucca",
+  "produto": "Notebook",
+  "valor": 3500.0,
+  "data": "2026-04-27"
+}'
+```
 
-| Pasta      | Função                        |
+The database will be automatically created in `db/database.db`.
+
+## Structure
+
+| Folder     | Description                   |
 |------------|-------------------------------|
-| `data/`    | Arquivos CSV de entrada       |
-| `db/`      | Banco SQLite gerado           |
-| `logs/`    | Logs de execução              |
-| `src/`     | Código fonte                  |
+| `data/`    | CSV data input                |
+| `db/`      | SQLite database storage       |
+| `logs/`    | Application logs              |
+| `src/`     | Application source code       |
 
-## Próximos passos
+## API Endpoints
 
-- [ ] API REST com FastAPI para consulta dos dados
+| Method | Endpoint             | Description                           |
+|--------|----------------------|---------------------------------------|
+| POST   | /sales               | Create a new sale                     |
+| GET    | /sales               | List sales with optional filters      |
+| GET    | /sales/{id}          | Get a sale by ID                      |
+| DELETE | /sales/{id}          | Delete a sale by ID                   |
+| GET    | /sales/report        | Get aggregated sales report           |
+| POST   | /sales/import        | Upload a CSV file and insert records  |
+
+## Roadmap
+
+- [x] REST API with FastAPI
+- [x] Filtering and pagination
+- [ ] Update (PUT/PATCH) endpoint
+- [ ] Improved error handling
+- [ ] Token-based authentication (JWT)

@@ -13,7 +13,7 @@ class Venda(BaseModel):
     valor: float
     data: str
 
-router = APIRouter(prefix="/vendas")
+router = APIRouter(prefix="/sales")
 
 @router.post("") # POST para inserir uma nova venda
 def criar_venda(venda: Venda):
@@ -98,7 +98,7 @@ def deletar_venda(id: int):
         logging.error(f"Erro ao deletar venda: {e}")
         raise HTTPException(status_code=500, detail="Erro interno ao deletar venda")
 
-@router.get("/relatorios/") # GET para gerar relatório completo de vendas
+@router.get("/report") # GET para gerar relatório completo de vendas
 def relatorio_faturamento():
 
     try:
@@ -108,8 +108,8 @@ def relatorio_faturamento():
         logging.error(f"Erro ao gerar relatório de faturamento: {e}")
         raise HTTPException(status_code=500, detail="Erro interno ao gerar relatório de faturamento")
     
-@router.post("/upload")
-def upload_vendas(file: UploadFile = File(...)):
+@router.post("/import")
+def upload_vendas(file: UploadFile = File(...)): # POST para upload de arquivo CSV com vendas
     
     try:
         content = file.file.read().decode('utf-8')
