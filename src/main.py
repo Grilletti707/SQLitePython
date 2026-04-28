@@ -1,19 +1,19 @@
+from src.core.logging_config import setup_logging
+setup_logging()
+
 import logging
 import os
 from fastapi import FastAPI
 from src.api import routes
 from src.process import load_data
 from src.db import create_table, insert_data
-from src.core.logging_config import setup_logging
 import src.queries as queries
+
+logger = logging.getLogger(__name__)
 
 app = FastAPI()
 
 app.include_router(routes.router)
-
-# Configurando o logger para este módulo
-setup_logging()
-logger = logging.getLogger(__name__)
 
 def main():
 

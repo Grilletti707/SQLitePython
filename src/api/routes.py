@@ -64,6 +64,16 @@ def listar_vendas(
         logging.error(f"Erro ao listar vendas com filtros: {e}")
         raise HTTPException(status_code=500, detail="Erro interno ao buscar vendas com filtros")
 
+@router.get("/report") # GET para gerar relatório completo de vendas
+def relatorio_faturamento():
+
+    try:
+        return queries.fetch_report()
+    
+    except Exception as e:
+        logging.error(f"Erro ao gerar relatório de faturamento: {e}")
+        raise HTTPException(status_code=500, detail="Erro interno ao gerar relatório de faturamento")
+
 @router.get("/{id}") # GET para buscar venda por ID
 def buscar_venda(id: int):
 
@@ -94,19 +104,12 @@ def deletar_venda(id: int):
         queries.delete_by_id(id)
         return {"message": f"Venda com ID {id} deletada com sucesso"}
     
-    except Exception as e:
+    except HTTPException:
+        raise
+
+    except Exception:
         logging.error(f"Erro ao deletar venda: {e}")
         raise HTTPException(status_code=500, detail="Erro interno ao deletar venda")
-
-@router.get("/report") # GET para gerar relatório completo de vendas
-def relatorio_faturamento():
-
-    try:
-        return queries.fetch_report()
-    
-    except Exception as e:
-        logging.error(f"Erro ao gerar relatório de faturamento: {e}")
-        raise HTTPException(status_code=500, detail="Erro interno ao gerar relatório de faturamento")
     
 @router.post("/import")
 def upload_vendas(file: UploadFile = File(...)): # POST para upload de arquivo CSV com vendas

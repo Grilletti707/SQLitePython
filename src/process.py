@@ -3,7 +3,6 @@ import logging
 from typing import List, TypedDict
 from io import StringIO
 
-
 # Configurando o logger para este módulo
 logger = logging.getLogger(__name__)
 
@@ -13,6 +12,22 @@ class Venda(TypedDict):
     produto: str
     valor: float
     data: str
+
+def _parse_row(row: dict) -> Venda:
+
+    venda: Venda = {
+        "id": int(row["id"]),
+        "cliente": row["cliente"].strip().title(),
+        "produto": row["produto"].strip().title(),
+        "valor": float(row["valor"]),
+        "data": row["data"]
+    }
+
+    # Validação simples para garantir que os dados estão corretos
+    if venda["id"] <= 0 or venda["valor"] <= 0:
+        raise ValueError("ID deve ser positivo e valor deve ser não negativo")
+
+    return venda
 
 def load_data(file_path: str) -> List[Venda]: # Ler o csv e transformar em uma lista de dicionários, com validação simples dos dados
 
@@ -26,20 +41,8 @@ def load_data(file_path: str) -> List[Venda]: # Ler o csv e transformar em uma l
             reader = csv.DictReader(csvfile)
 
             for row in reader:
-
                 try:
-                    venda: Venda = {
-                        "id": int(row["id"]),
-                        "cliente": row["cliente"].strip().title(),
-                        "produto": row["produto"].strip().title(),
-                        "valor": float(row["valor"]),
-                        "data": row["data"]
-                    }
-
-                    # Validação simples para garantir que os dados estão corretos
-                    if venda["id"] <= 0 or venda["valor"] <= 0:
-                        raise ValueError("ID deve ser positivo e valor deve ser não negativo")
-
+                    venda = _parse_row(row)
                     data.append(venda)
 
                 except ValueError as ve:
@@ -53,22 +56,18 @@ def load_data(file_path: str) -> List[Venda]: # Ler o csv e transformar em uma l
     return data
 
 def process_csv(content: str):
+
     reader = csv.DictReader(StringIO(content))
 
     data = []
 
     for row in reader:
+
         try:
-            item = {
-                "id": int(row["id"]),
-                "cliente": row["cliente"],
-                "produto": row["produto"],
-                "valor": float(row["valor"]),
-                "data": row["data"]
-            }
+            item = _parse_row(row)
             data.append(item)
 
-        except Exception as e:
-            logger.error(f"Linha inválida: {row} | erro: {e}")
+        except ValueError as ve:
+            logger.error(f"Linha inválida ignorada: {row} | {ve}")
 
     return data

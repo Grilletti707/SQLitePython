@@ -1,6 +1,5 @@
 import logging
 from typing import List, Dict
-from fastapi import params
 from src.db import get_connection
 
 # Configurando o logger para este módulo
@@ -9,50 +8,54 @@ logger = logging.getLogger(__name__)
 def fetch_by(cliente=None, valor_min=None, valor_max=None, data=None, limit=None, offset=None) -> List[Dict]: # Relata todas as vendas
 
     conn = get_connection()
-    cursor = conn.cursor()
+    try:
+        cursor = conn.cursor()
 
-    query = "SELECT * FROM vendas WHERE 1=1" # Base da query, para facilitar adição de filtros
-    params = []
+        query = "SELECT * FROM vendas WHERE 1=1" # Base da query, para facilitar adição de filtros
+        params = []
 
-    if cliente is not None:
-        logger.info(f"Filtrando por cliente: {cliente}")
-        query += " AND cliente LIKE ?"
-        params.append(f"%{cliente}%")
+        if cliente is not None:
+            logger.info(f"Filtrando por cliente: {cliente}")
+            query += " AND cliente LIKE ?"
+            params.append(f"%{cliente}%")
 
-    if valor_min is not None:
-        query += " AND valor >= ?"
-        params.append(valor_min)
+        if valor_min is not None:
+            query += " AND valor >= ?"
+            params.append(valor_min)
 
-    if valor_max is not None:
-        query += " AND valor <= ?"
-        params.append(valor_max)
+        if valor_max is not None:
+            query += " AND valor <= ?"
+            params.append(valor_max)
 
-    if data is not None:
-        query += " AND data = ?"
-        params.append(data)
+        if data is not None:
+            query += " AND data = ?"
+            params.append(data)
 
-    if limit is not None:
-        query += " LIMIT ?"
-        params.append(limit)
+        if limit is not None:
+            query += " LIMIT ?"
+            params.append(limit)
 
-    if offset is not None:
-        query += " OFFSET ?"
-        params.append(offset)
+        if offset is not None:
+            query += " OFFSET ?"
+            params.append(offset)
 
-    cursor.execute(query, params)
-    rows = cursor.fetchall()
-    conn.close()
+        cursor.execute(query, params)
+        rows = cursor.fetchall()
+        conn.close()
 
-    return [
-        {
-            "id": row[0],
-            "cliente": row[1],
-            "produto": row[2],
-            "valor": row[3],
-            "data": row[4]
-        }
-        for row in rows
-    ]
+        return [
+            {
+                "id": row[0],
+                "cliente": row[1],
+                "produto": row[2],
+                "valor": row[3],
+                "data": row[4]
+            }
+            for row in rows
+        ]
+    
+    finally:
+        conn.close()
 
 def fetch_by_cliente(cliente: str) -> List[Dict]: # Busca vendas por nome do cliente
 
